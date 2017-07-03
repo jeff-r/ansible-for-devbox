@@ -13,7 +13,7 @@
 - name: Copy ez-dotfiles
   synchronize:
     src: ~/ez-dotfiles/
-    dest: /home/centos/dotfiles/
+    dest: /home/centos/ez-dotfiles/
 - name: Copy ~/.vim/
   synchronize:
     src: ~/.vim/
