@@ -1,0 +1,20 @@
+- name: Copy dot files
+  synchronize:
+    src: "~/{{ item }}"
+    dest: "/home/centos/{{ item }}"
+  with_items:
+    - .bash_functions
+    - .bash_path
+    - .bash_profile
+    - .bashrc
+    - .bash_aliases
+    - .gitconfig
+    - .vimrc
+- name: Copy ez-dotfiles
+  synchronize:
+    src: ~/ez-dotfiles/
+    dest: /home/centos/dotfiles/
+- name: Copy ~/.vim/
+  synchronize:
+    src: ~/.vim/
+    dest: /home/centos/.vim/
