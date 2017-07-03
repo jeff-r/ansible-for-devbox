@@ -1,0 +1,17 @@
+---
+- name: Copy development files
+  hosts: all
+
+  tasks:
+    - name: Copy dotfiles
+      synchronize:
+        src: ~/ez-dotfiles/
+        dest: /home/centos/dotfiles/
+    - name: Copy ~/.vim/
+      synchronize:
+        src: ~/.vim/
+        dest: /home/centos/.vim/
+    - name: Copy .vimrc
+      synchronize:
+        src: ~/.vimrc
+        dest: /home/centos/.vimrc

@@ -1,0 +1,19 @@
+---
+- name: install epel-release
+  become: true
+  yum:
+    name: epel-release
+    state: latest
+- name: install ansible
+  become: true
+  yum:
+    name: ansible
+    state: latest
+- name: install nginx
+  become: true
+  yum:
+    name: nginx
+    state: latest
+- name: http service state
+  become: true
+  service: name=nginx state=started

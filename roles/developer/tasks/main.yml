@@ -1,0 +1,16 @@
+---
+- name: install git
+  become: true
+  yum:
+    name: git
+    state: latest
+- name: install vim
+  become: true
+  yum:
+    name: vim
+    state: latest
+- name: install ruby
+  become: true
+  yum:
+    name: ruby
+    state: latest
