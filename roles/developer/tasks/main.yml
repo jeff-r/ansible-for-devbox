@@ -1,16 +1,31 @@
+# You may need to install this to get the snap role:
+# ansible-galaxy collection install community.general
+
 ---
-- name: install git
-  become: true
-  yum:
-    name: git
-    state: latest
-- name: install vim
-  become: true
-  yum:
-    name: vim
-    state: latest
-- name: install ruby
-  become: true
-  yum:
-    name: ruby
-    state: latest
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+    - git
+    - vim
+    - ruby
+    - tmux
+    - zsh
+    - wget
+    - snapd
+    
+- name: Install oh-my-zsh
+  ansible.builtin.command: $(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)
+  args:
+    creates: /home/jeff/.zshrc
+  
+- name: Add the user 'jeff'
+  ansible.builtin.user:
+    name: jeff
+    shell: /usr/bin/zsh
+    # groups: admins,developers
+
+- name: Install snaps
+  community.general.snap:
+    name:
+      - rubymine
+    classic: true

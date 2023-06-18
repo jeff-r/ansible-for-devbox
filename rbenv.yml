@@ -1,0 +1,19 @@
+# First, install the role:
+# ansible-galaxy install zzet.rbenv
+---
+- hosts: localhost
+  gather_facts: true # https://github.com/zzet/ansible-rbenv-role/issues/37
+  vars:
+    rbenv:
+      env: user
+      version: v1.2.0
+      default_ruby: 3.2.2
+      rubies:
+        - version: 3.2.2
+        - version: 2.7.6
+    rbenv_extra_depends:
+      - libyaml-dev
+  roles:
+    - role: zzet.rbenv
+      rbenv_users:
+        - jeff

@@ -1,10 +1,6 @@
 ---
-- name: Setup base system
-  hosts: all
-  roles:
-    - base
-
 - name: setup development environment
-  hosts: devboxes
+  hosts: localhost
+  become: true
   roles:
     - developer
