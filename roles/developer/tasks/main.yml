@@ -12,7 +12,9 @@
     - zsh
     - wget
     - snapd
-    
+    - distrobox
+  when: ansible_facts['distribution'] != "Pop!_OS"
+
 - name: Install oh-my-zsh
   ansible.builtin.command: $(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)
   args:
