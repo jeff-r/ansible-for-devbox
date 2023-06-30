@@ -12,7 +12,6 @@
     - zsh
     - wget
     - snapd
-    - distrobox
   when: ansible_facts['distribution'] != "Pop!_OS"
 
 - name: Install oh-my-zsh
@@ -31,3 +30,14 @@
     name:
       - rubymine
     classic: true
+
+- name: git checkout distrobox
+  ansible.builtin.git:
+    repo: https://github.com/89luca89/distrobox.git
+    dest: /home/jeff/projects/gits/distrobox
+
+- name: Install distrobox from git
+  ansible.builtin.shell: ./install
+  args:
+    chdir: /home/jeff/projects/gits/distrobox
+    creates: /usr/local/bin/distrobox
