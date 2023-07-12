@@ -1,6 +1,5 @@
 ---
 - name: setup development environment
   hosts: localhost
-  become: true
   roles:
     - developer

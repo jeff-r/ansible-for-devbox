@@ -3,6 +3,7 @@
 
 ---
 - name: Install packages
+  become: true
   ansible.builtin.apt:
     pkg:
     - git
@@ -11,25 +12,35 @@
     - tmux
     - zsh
     - wget
-    - snapd
-  when: ansible_facts['distribution'] != "Pop!_OS"
+    - curl
+    - flatpak
+    - fuse
+    - gnome-software-plugin-flatpak
+  # when: ansible_facts['distribution'] != "Pop!_OS"
 
 - name: Install oh-my-zsh
   ansible.builtin.command: $(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)
   args:
     creates: /home/jeff/.zshrc
-  
+
+- name: Ensure group fuse exists
+  become: true
+  ansible.builtin.group:
+    name: fuse
+    state: present
+
 - name: Add the user 'jeff'
+  become: true
   ansible.builtin.user:
     name: jeff
     shell: /usr/bin/zsh
-    # groups: admins,developers
+    groups: fuse
 
-- name: Install snaps
-  community.general.snap:
-    name:
-      - rubymine
-    classic: true
+# - name: Install snaps
+#   community.general.snap:
+#     name:
+#       - rubymine
+#     classic: true
 
 - name: git checkout distrobox
   ansible.builtin.git:
@@ -41,3 +52,23 @@
   args:
     chdir: /home/jeff/projects/gits/distrobox
     creates: /usr/local/bin/distrobox
+
+#- name: Add the flathub flatpak repository remote to the user installation
+#  community.general.flatpak_remote:
+#    name: flathub
+#    state: present
+#    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+#    method: user
+#
+
+- name: Download neovim
+  ansible.builtin.get_url:
+    url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    dest: /home/jeff/bin/nvim.appimage
+    mode: '0110'
+
+- name: Create a symlink for neovim
+  ansible.builtin.file:
+    src: /home/jeff/bin/nvim.appimage
+    dest: /home/jeff/bin/nvim
+    state: link
